@@ -1,26 +1,5 @@
 # Charte stylistique Angular
 
-*Guide de style subjectif pour Angular par [@john_papa](//twitter.com/john_papa)*
-
-Si vous cherchez un guide de style pour la syntaxe, les conventions, et la structuration d'applications Angular, alors vous êtes au bon endroit. Ces styles sont basés sur mon expérience de développement avec [Angular](//angularjs.org), mes présentations, [mes cours sur Pluralsight](http://pluralsight.com/training/Authors/Details/john-papa) et mon travail au sein de diverses équipes.
-
-Le but de ce guide de style est de proposer des conseils sur le développement d'applications Angular en exposant les conventions que j'utilise et plus important encore, pourquoi je les ai choisies.
-
->Si vous appréciez ce guide, visitez mon cours [Angular Patterns: Clean Code](http://jpapa.me/ngclean) sur Pluralsight qui va de pair avec ce guide.
-
-  [![Angular Patterns: Clean Code](https://raw.githubusercontent.com/johnpapa/angular-styleguide/master/a1/assets/ng-clean-code-banner.png)](http://jpapa.me/ngclean)
-
-## Remerciements individuels et à la communauté
-Ne jamais travailler en vase clos. J'ai trouvé que la communauté Angular est une incroyable communauté dont les membres ont à cœur de partager leurs expériences. Ainsi, avec mon ami et expert d'Angular, Todd Motto, nous avons collaboré sur de nombreux styles et conventions. Nous sommes d'accord sur la plupart, et nous divergeons sur d'autres. Je vous encourage à visiter [le guide de style de Todd](https://github.com/toddmotto/angularjs-styleguide) pour vous faire votre propre avis sur son approche et en quoi elle diverge.
-
-Beaucoup de mes styles proviennent des nombreuses séances de pair programming avec [Ward Bell](http://twitter.com/wardbell). Mon ami Ward a assurément contribué à influencer l'évolution ultime de ce guide.
-
-## Visualiser les styles dans une application d'exemple
-Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est utile de pouvoir les visualiser dans la pratique. Ce guide est accompagné par une application d'exemple qui suit ces styles et ces modèles. Vous pouvez trouver l'[application d'exemple (intitulée modular) ici](https://github.com/johnpapa/ng-demos) dans le répertoire `modular`. Vous pouvez librement le récupérer, le cloner, ou le *forker*. [Les instructions pour l’exécuter sont contenues dans ce readme](https://github.com/johnpapa/ng-demos/tree/master/modular).
-
-## Traductions
-[Les traductions de ce guide stylistique pour Angular](https://github.com/johnpapa/angular-styleguide/tree/master/i18n) sont maintenues par la communauté et peuvent être trouvées ici.
-
 ## Table des matières
 
   1. [Responsabilité Unique](#responsabilité-unique)
@@ -296,6 +275,9 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
 ## Contrôleurs
 
 ### Syntaxe de la vue avec `controllerAs`
+
+`Cette règle est implicite en mode component (valeur par défaut : $ctrl ou choix utilisateur).`
+
 ###### [Style [Y030](#style-y030)]
 
   - Utilisez la syntaxe avec [`controllerAs`](http://www.johnpapa.net/do-you-like-your-angular-controllers-with-or-without-sugar/) au lieu de la syntaxe classique avec `$scope`.
@@ -626,61 +608,6 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
   - Définissez un contrôleur pour une vue, et n'essayez pas de réutiliser le contrôleur pour d'autres vues. Au lieu de cela, déplacez la logique réutilisable vers les *factories* et gardez le contrôleur simple et focalisé sur sa vue.
 
     *Pourquoi ?*: La réutilisation des contrôleurs sur plusieurs vues est fragilisante pour l'application et une bonne couverture de tests *end-to-end* (*e2e*) est requise afin d'assurer la stabilité sur l'ensemble d'une grosse application.
-
-### Assignation des contrôleurs
-###### [Style [Y038](#style-y038)]
-
-  - Lorsqu'un contrôleur doit être associé à une vue et qu'un composant pourraient être réutilisés par d'autres contrôleurs ou vues, définissez les contrôleurs avec leurs routes.
-
-    Note : Si une vue est chargée via d'autres moyens qu'une route, alors utilisez la syntaxe avec `ng-controller="Avengers as vm"`.
-
-    *Pourquoi ?* : Associer le contrôleur dans la route permet à différentes routes d'invoquer d'autres paires contrôleur-vue. Lorsque les contrôleurs sont assignés dans la vue avec [`ng-controller`](https://docs.angularjs.org/api/ng/directive/ngController), cette vue est toujours associée avec le même contrôleur.
-
- ```javascript
-  /* à éviter - lorsque l'utilisation avec une route et une association dynamique est voulue */
-
-  // route-config.js
-  angular
-      .module('app')
-      .config(config);
-
-  function config($routeProvider) {
-      $routeProvider
-          .when('/avengers', {
-            templateUrl: 'avengers.html'
-          });
-  }
-  ```
-
-  ```html
-  <!-- avengers.html -->
-  <div ng-controller="Avengers as vm">
-  </div>
-  ```
-
-  ```javascript
-  /* recommandé */
-
-  // route-config.js
-  angular
-      .module('app')
-      .config(config);
-
-  function config($routeProvider) {
-      $routeProvider
-          .when('/avengers', {
-              templateUrl: 'avengers.html',
-              controller: 'Avengers',
-              controllerAs: 'vm'
-          });
-  }
-  ```
-
-  ```html
-  <!-- avengers.html -->
-  <div>
-  </div>
-  ```
 
 **[Retour en haut de page](#table-des-matières)**
 
@@ -1717,7 +1644,7 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
 
 **[Retour en haut de page](#table-des-matières)**
 
-## Gestion des Exceptions
+## Gestion des Exceptions ---------- (TODO) ----------
 
 ### Décorateurs
 ###### [Style [Y110](#style-y110)]
@@ -1862,60 +1789,17 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
 
     ```javascript
     /**
-     * Options courantes
+     * Options Midiway
      */
 
-    // Contrôleurs
+    // Components / Contrôleurs
     avengers.js
-    avengers.controller.js
-    avengersController.js
 
     // Services/Factories
-    logger.js
-    logger.service.js
-    loggerService.js
-    ```
-
-    ```javascript
-    /**
-     * recommandé
-     */
-
-    // contrôleurs
-    avengers.controller.js
-    avengers.controller.spec.js
-
-    // services/factories
-    logger.service.js
-    logger.service.spec.js
-
-    // constantes
-    constants.js
-
-    // definition de module
-    avengers.module.js
-
-    // routes
-    avengers.routes.js
-    avengers.routes.spec.js
-
-    // configuration
-    avengers.config.js
-
-    // directives
-    avenger-profile.directive.js
-    avenger-profile.directive.spec.js
-    ```
-
-  Note : Une autre convention courante consiste à nommer les fichiers des contrôleurs sans le mot `controller` dans le nom de fichier comme `avengers.js`au lieu de `avengers.controller.js`. Toutes les autres conventions tiennent à garder le suffixe du type. Le contrôleur étant le type de composant le plus courant, cela permet alors d'économiser à la frappe tout en restant facilement identifiable. Je vous conseille de choisir une convention et de vous y tenir dans toute l'équipe. Ma préference est `avengers.controller.js`.
-
-    ```javascript
-    /**
-     * recommandé
-     */
-    // Contrôleurs
-    avengers.js
-    avengers.spec.js
+    logger-service.js
+    
+    // Fichier de config (routage, ...)
+    config.js
     ```
 
 ### Nommage des fichiers de test
@@ -1951,32 +1835,32 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
      * recommandé
      */
 
-    // avengers.controller.js
+    // avengers.js
     angular
         .module
-        .controller('HeroAvengersController', HeroAvengersController);
+        .controller('HeroAvengersCtrl', HeroAvengersCtrl);
 
-    function HeroAvengersController() { }
+    function HeroAvengersCtrl() { }
     ```
 
 ### Suffixe du nom des contrôleurs
 ###### [Style [Y124](#style-y124)]
 
-  - Ajoutez au nom du contrôleur le suffixe ˋControllerˋ.
+  - Ajoutez au nom du contrôleur le suffixe ˋCtrlˋ.
 
-    *Pourquoi ?* : Le suffixe ˋControllerˋ est souvent utilisé et il est explicite.
+    *Pourquoi ?* : Le suffixe ˋCtrlˋ est souvent utilisé et il est explicite.
 
     ```javascript
     /**
      * recommandé
      */
 
-    // avengers.controller.js
+    // avengers.js
     angular
         .module
-        .controller('AvengersController', AvengersController);
+        .controller('AvengersCtrl', AvengersCtrl);
 
-    function AvengersController(){ }
+    function AvengersCtrl(){ }
     ```
 
 ### Nommage des *factory* et des services
@@ -1997,7 +1881,7 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
      * recommandé
      */
 
-    // logger.service.js
+    // logger-service.js
     angular
         .module
         .factory('logger', logger);
@@ -2010,14 +1894,14 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
      * recommended
      */
 
-    // credit.service.js
+    // credit-service.js
     angular
         .module
         .factory('creditService', creditService);
 
     function creditService() { }
 
-    // credit.service.js
+    // credit-service.js
     angular
         .module
         .service('customersService', customersService);
@@ -2144,7 +2028,7 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
 
     Note : Vous trouverez plus de détails et de justifications concernant l'architecture sur [ce post original sur la structure des applications](http://www.johnpapa.net/angular-app-structuring-guidelines/).
 
-### Layout
+### Layout ---------- (TODO) ----------
 ###### [Style [Y151](#style-y151)]
 
   - Placez les composants qui définissent l'agencement visuel principal de l'application dans un répertoire nommé `layout`. Il devrait inclure une « vue-enveloppe » et le contrôleur devrait agir comme conteneur pour l'application, la navigation, les menus, les zones de contenu, et les autres régions.
@@ -2274,7 +2158,7 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
 
     *Pourquoi ?* : Le module applicatif devient une déclaration qui montre quels modules aident à constituer l'application.
 
-### Les macro-fonctionnalités sont des modules
+### Les macro-fonctionnalités sont des modules ---------- (TODO) ----------
 ###### [Style [Y163](#style-y163)]
 
   - Créez des modules qui représentent des macro-fonctionnalités, comme l'agencement graphique (*layout*), les services réutilisables et partagés, les dashboards, et les fonctionnalités applicatives spécifiques (par exemple : clients, admin, ventes).
@@ -2387,7 +2271,7 @@ Bien que ce guide explique le *quoi*, le *pourquoi* et le *comment*, il m'est ut
 
 **[Retour en haut de page](#table-des-matières)**
 
-## Tests
+## Tests ----------- (TODO) ----------
 Les tests unitaires aident à maintenir un code source propre, ainsi j'ai inclus quelques unes de mes recommandations sur les bases des tests unitaires avec des liens pour plus d'informations.
 
 ### Écrire les tests avec des scenario
